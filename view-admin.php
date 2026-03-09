@@ -73,7 +73,8 @@ include "partials/header.php";
 
 <a class="btn btn-danger btn-sm"
 
-href="?delete=<?= $f["id"] ?>">
+href="?delete=<?= $f["id"] ?>"
+onclick="return confirm('Supprimer ce service ?')">
 
 Supprimer
 
@@ -107,9 +108,9 @@ Supprimer
 
 <?php $formationsMap = [];
 
-foreach ($formations as $f {
+foreach ($formations as $f) {
     $formationsMap[$f["id"]] = $f["titre"]; 
-})
+}
 
 foreach($inscriptions as $i): ?>
 
