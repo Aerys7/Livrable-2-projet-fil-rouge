@@ -1,0 +1,7 @@
+[
+  { "id": 1, "titre": "Assurance vie", "duree": "30 min", "prix": 0, "actif": true },
+  { "id": 2, "titre": "Assurance habitation", "duree": "30 min", "prix": 0, "actif": true },
+  { "id": 3, "titre": "Planification financière", "duree": "60 min", "prix": 0, "actif": true },
+  { "id": 4, "titre": "Épargne et retraite", "duree": "45 min", "prix": 0, "actif": true },
+  { "id": 5, "titre": "Analyse budgétaire", "duree": "30 min", "prix": 0, "actif": true }
+]

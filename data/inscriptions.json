@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "nom": "Jean Tremblay",
+    "email": "jean@test.com",
+    "date": "2026-03-09",
+    "formation_id": 3,
+    "status": "en_attente"
+  }
+]
