@@ -105,7 +105,13 @@ Supprimer
 
 </tr>
 
-<?php foreach($inscriptions as $i): ?>
+<?php $formationsMap = [];
+
+foreach ($formations as $f {
+    $formationsMap[$f["id"]] = $f["titre"]; 
+})
+
+foreach($inscriptions as $i): ?>
 
 <tr>
 
@@ -115,7 +121,7 @@ Supprimer
 
 <td><?= htmlspecialchars($i["date"]) ?></td>
 
-<td><?= htmlspecialchars($i["formation_id"]) ?></td>
+<td><?= htmlspecialchars($formationsMap[$i["formation_id"]] ?? "Inconnue") ?></td>
 
 <td><?= htmlspecialchars($i["status"]) ?></td>
 
