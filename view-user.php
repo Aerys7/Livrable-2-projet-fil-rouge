@@ -18,14 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nom = $_POST["nom"];
     $email = $_POST["email"];
 
-    $inscriptionsRepo->add([
-        "nom" => $nom,
-        "email" => $email,
-        "date" => date("Y-m-d"),
-        "formation_id" => $formation["id"],
-        "status" => "en_attente"
-    ]);
+    $rdv = $_POST["rdv_datetime"];
 
+    $inscriptionsRepo->add([
+    "nom" => $nom,
+    "email" => $email,
+    "rdv_datetime" => $rdv,
+    "date" => date("Y-m-d"),
+    "formation_id" => $formation["id"],
+    "status" => "en_attente"
+]);
     header("Location: view-user.php?id=".$formation["id"]."&success=1");
     exit;
 }
@@ -61,6 +63,17 @@ Inscription enregistrée !
 <label class="form-label">Email</label>
 
 <input type="email" name="email" class="form-control" required>
+
+</div>
+
+<div class="mb-3">
+<label class="form-label">Date et heure du rendez-vous</label>
+
+<input
+type="datetime-local"
+name="rdv_datetime"
+class="form-control"
+required>
 
 </div>
 

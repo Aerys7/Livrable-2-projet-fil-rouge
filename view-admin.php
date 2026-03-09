@@ -29,6 +29,10 @@ if (isset($_GET["delete"])) {
 $formations = $formationsRepo->all();
 $inscriptions = $inscriptionsRepo->all();
 
+usort($inscriptions, function($a, $b) {
+    return strtotime($b["date"]) - strtotime($a["date"]);
+});
+
 include "partials/header.php";
 
 ?>
@@ -100,6 +104,8 @@ Supprimer
 
 <th>Date</th>
 
+<th>Rendez-vous</th>
+
 <th>Formation</th>
 
 <th>Status</th>
@@ -121,6 +127,8 @@ foreach($inscriptions as $i): ?>
 <td><?= htmlspecialchars($i["email"]) ?></td>
 
 <td><?= htmlspecialchars($i["date"]) ?></td>
+
+<td><?= htmlspecialchars($i["rdv_datetime"] ?? "") ?></td>
 
 <td><?= htmlspecialchars($formationsMap[$i["formation_id"]] ?? "Inconnue") ?></td>
 
