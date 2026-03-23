@@ -9,9 +9,11 @@ $formations = $repo->all();
 // Mapping des images selon le service
 $images = [
     "Assurance vie" => "assets/img/assurance-vie.jpg",
-    "Assurance habitation" => "assets/img/habitation.jpg",
-    "Planification financière" => "assets/img/finance.jpg",
-    "Épargne et retraite" => "assets/img/retraite.jpg"
+    "Assurance habitation" => "assets/img/assurance-habitation.jpg",
+    "Planification financière" => "assets/img/planification-financiere.jpg",
+    "Épargne et retraite" => "assets/img/epargne-retraite.jpg",
+    "Analyse budgétaire" => "assets/img/analyse-budgetaire.jpg",
+    "Assurance invalidité" => "assets/img/assurance-invalidite.jpg"
 ];
 
 include "partials/header.php";
@@ -85,7 +87,7 @@ Prendre rendez-vous
 
   <a href="#"
      class="btn btn-primary">
-    Voir les services
+    Appellez-nous au 418-831-2355
   </a>
 
 </div>
