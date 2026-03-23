@@ -10,29 +10,39 @@ include "partials/header.php";
 
 ?>
 
-<h1 class="mb-4">Nos services financiers</h1>
+<div class="bg-light p-5 rounded text-center mb-5">
+  <h1 class="fw-bold">Prenez rendez-vous avec notre conseiller</h1>
+  <p class="lead">Des services adaptés à vos besoins financiers</p>
+</div>
 
-<div class="row">
+<div class="container">
+
+<h2 class="mb-4 text-center">Nos services</h2>
+
+<div class="row g-4">
 
 <?php foreach($formations as $f): ?>
 
-<div class="col-md-4 mb-4">
+<div class="col-md-6 col-lg-4">
 
-<div class="card h-100">
+<div class="card h-100 shadow-sm border-0">
 
-<div class="card-body">
+<img src="assets/img/default.jpg"
+     class="card-img-top"
+     style="height: 180px; object-fit: cover;">
 
-<h5 class="card-title">
+<div class="card-body text-center">
 
+<h5 class="card-title fw-bold">
 <?= htmlspecialchars($f["titre"]) ?>
-
 </h5>
 
-<p>Durée : <?= htmlspecialchars($f["duree"]) ?></p>
+<p class="text-muted">
+Durée : <?= htmlspecialchars($f["duree"]) ?>
+</p>
 
-<a class="btn btn-primary"
-
-href="view-user.php?id=<?= $f["id"] ?>">
+<a href="view-user.php?id=<?= $f["id"] ?>"
+class="btn btn-primary mt-2">
 
 Prendre rendez-vous
 
@@ -45,6 +55,23 @@ Prendre rendez-vous
 </div>
 
 <?php endforeach; ?>
+
+</div>
+
+</div>
+
+<div class="bg-light text-center py-5 mt-5">
+
+  <h3 class="fw-bold">Besoin d’un accompagnement ?</h3>
+
+  <p class="text-muted">
+    Prenez rendez-vous dès maintenant avec un expert.
+  </p>
+
+  <a href="#"
+     class="btn btn-primary">
+    Voir les services
+  </a>
 
 </div>
 

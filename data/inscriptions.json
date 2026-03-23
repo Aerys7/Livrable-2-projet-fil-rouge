@@ -1,35 +1,20 @@
 [
     {
-        "id": 1,
-        "nom": "Jean Tremblay",
-        "email": "jean@test.com",
-        "date": "2026-03-09",
-        "formation_id": 3,
-        "status": "en_attente"
-    },
-    {
-        "nom": "test",
-        "email": "test@hotmail.com",
-        "date": "2026-03-09",
-        "formation_id": 2,
-        "status": "en_attente",
-        "id": 2
-    },
-    {
-        "nom": "Test2",
-        "email": "Alexandre.desrosiers1997@hotmail.com",
-        "date": "2026-03-09",
-        "formation_id": 2,
-        "status": "en_attente",
-        "id": 3
-    },
-    {
         "nom": "Test",
-        "email": "test@hotmail.com",
-        "rdv_datetime": "2026-03-10T15:01",
-        "date": "2026-03-09",
+        "email": "Alexandre.desrosiers1997@hotmail.com",
+        "date": "2026-03-25",
+        "heure": "09:00-10:00",
+        "formation_id": 2,
+        "status": "confirme",
+        "id": 1
+    },
+    {
+        "nom": "tes",
+        "email": "Alexandre.desrosiers1997@hotmail.com",
+        "date": "2026-03-25",
+        "heure": "13:00-14:00",
         "formation_id": 1,
-        "status": "en_attente",
-        "id": 4
+        "status": "refuse",
+        "id": 2
     }
 ]
