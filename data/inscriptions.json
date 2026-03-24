@@ -3,54 +3,18 @@
         "nom": "Alexandre Desrosiers",
         "email": "Alexandre.desrosiers1997@hotmail.com",
         "date": "2026-03-25",
-        "heure": "11:00-12:00",
-        "formation_id": 3,
+        "heure": "09:00-10:00",
+        "formation_id": 2,
         "status": "confirme",
         "id": 1
     },
     {
-        "nom": "Test",
-        "email": "Alexandre.desrosiers1997@hotmail.com",
-        "date": "2026-03-24",
+        "nom": "Fr\u00e9d\u00e9rick Picard",
+        "email": "frederickpicard@gmail.com",
+        "date": "2026-03-25",
         "heure": "10:00-11:00",
-        "formation_id": 2,
-        "status": "en_attente",
+        "formation_id": 3,
+        "status": "refuse",
         "id": 2
-    },
-    {
-        "nom": "Test",
-        "email": "Alexandre.desrosiers1997@hotmail.com",
-        "date": "2026-03-24",
-        "heure": "09:00-10:00",
-        "formation_id": 2,
-        "status": "en_attente",
-        "id": 3
-    },
-    {
-        "nom": "Test",
-        "email": "Alexandre.desrosiers1997@hotmail.com",
-        "date": "2026-03-24",
-        "heure": "09:00-10:00",
-        "formation_id": 1,
-        "status": "en_attente",
-        "id": 4
-    },
-    {
-        "nom": "Test",
-        "email": "Alexandre.desrosiers1997@hotmail.com",
-        "date": "2026-03-25",
-        "heure": "09:00-10:00",
-        "formation_id": 1,
-        "status": "en_attente",
-        "id": 5
-    },
-    {
-        "nom": "Test",
-        "email": "Alexandre.desrosiers1997@hotmail.com",
-        "date": "2026-03-25",
-        "heure": "10:00-11:00",
-        "formation_id": 2,
-        "status": "en_attente",
-        "id": 6
     }
 ]

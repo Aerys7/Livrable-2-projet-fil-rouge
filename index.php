@@ -82,12 +82,11 @@ Prendre rendez-vous
   <h3 class="fw-bold">Besoin d’un accompagnement ?</h3>
 
   <p class="text-muted">
-    Prenez rendez-vous dès maintenant avec un expert.
+     Appellez directement le conseiller
   </p>
 
-  <a href="#"
-     class="btn btn-primary">
-    Appellez-nous au 418-831-2355
+ <a href="tel:+14185551234" class="btn btn-primary mt-2">
+📞 +1 (418) 555-1234
   </a>
 
 </div>

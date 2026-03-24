@@ -47,6 +47,16 @@ if ($filtre !== "all") {
     $inscriptions = array_filter($inscriptions, fn($i) => $i["status"] === $filtre);
 }
 
+//TRIAGE
+usort($inscriptions, function($a, $b) {
+
+    // Combiner date + heure début
+    $dateA = $a["date"] . " " . explode("-", $a["heure"])[0];
+    $dateB = $b["date"] . " " . explode("-", $b["heure"])[0];
+
+    return strtotime($dateA) - strtotime($dateB);
+});
+
 // STATS
 $total = count($inscriptions);
 $attente = count(array_filter($inscriptions, fn($i) => $i["status"] === "en_attente"));

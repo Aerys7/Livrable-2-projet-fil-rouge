@@ -63,12 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $inscriptions = $inscriptionsRepo->all();
 
         foreach ($inscriptions as $i) {
-            if (
+          if (
                 $i["date"] === $date &&
                 $i["heure"] === $heure &&
-                $i["formation_id"] == $formation["id"] &&
                 $i["status"] !== "refuse"
-            ) {
+             ) {
                 $erreurs["heure"] = "Ce créneau est déjà réservé.";
                 break;
             }
