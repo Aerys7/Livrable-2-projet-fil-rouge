@@ -35,8 +35,8 @@
         "actif": true
     },
     {
-        "titre": "Assurance Invalidit\u00e9",
-        "duree": "60 min",
+        "titre": "Assurance invalidit\u00e9",
+        "duree": "45 min",
         "prix": 0,
         "actif": true,
         "id": 6
