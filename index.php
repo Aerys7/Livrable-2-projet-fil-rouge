@@ -1,20 +1,12 @@
 <?php
 
-//require_once "src/JsonRepository.php";
-//require_once "src/FormationRepository.php";
-//require_once "src/InscriptionRepository.php";
-//$formationsRepo = new FormationRepository();
-//$inscriptionsRepo = new InscriptionRepository();
-
 require_once "src/FormationRepository.php";
 require_once "src/InscriptionRepository.php";
 
 $formationsRepo = new FormationRepository();
 $inscriptionsRepo = new InscriptionRepository();
 
-$repo = new JsonRepository("data/formations.json");
-
-$formations = $repo->all();
+$formations = $formationsRepo->all();
 
 // Mapping des images selon le service
 $images = [

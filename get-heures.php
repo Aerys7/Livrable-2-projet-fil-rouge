@@ -1,8 +1,9 @@
 <?php
 
-require_once "src/JsonRepository.php";
+require_once "src/InscriptionRepository.php";
 
-$repo = new JsonRepository("data/inscriptions.json");
+$repo = new InscriptionRepository();
+$inscriptions = $repo->all();
 
 $date = $_GET["date"] ?? "";
 

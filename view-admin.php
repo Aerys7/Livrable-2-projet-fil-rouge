@@ -1,8 +1,11 @@
 <?php
 
-//require_once "src/JsonRepository.php";
-//$formationsRepo = new JsonRepository("data/formations.json");
-//$inscriptionsRepo = new JsonRepository("data/inscriptions.json");
+session_start();
+
+if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] !== "admin") {
+    header("Location: login.php");
+    exit;
+}
 
 require_once "src/FormationRepository.php";
 require_once "src/InscriptionRepository.php";

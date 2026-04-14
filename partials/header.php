@@ -15,7 +15,7 @@
 
 <body>
 
-  <<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
       <a class="navbar-brand fw-bold" href="index.php">
         💼 Fournier Finances & Conseil
@@ -26,6 +26,6 @@
         <a class="nav-link fw-bold" href="view-admin.php">Admin</a>
       </div>
     </div>
-    </nav>
+  </nav>
 
-    <div class="container mt-4">
+  <div class="container mt-4">

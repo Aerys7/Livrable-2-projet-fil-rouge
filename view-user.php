@@ -1,9 +1,5 @@
 <?php
 
-//require_once "src/JsonRepository.php";
-//$formationsRepo = new JsonRepository("data/formations.json");
-//$inscriptionsRepo = new JsonRepository("data/inscriptions.json");
-
 require_once "src/FormationRepository.php";
 require_once "src/InscriptionRepository.php";
 
@@ -88,7 +84,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "date" => $date,
             "heure" => $heure,
             "formation_id" => $formation["id"],
-            "status" => "en_attente"
+            "status" => "en_attente",
+            "user_id" => $_SESSION["user"]["id"]
         ]);
 
         header("Location: view-user.php?id=" . $formation["id"] . "&success=1");
