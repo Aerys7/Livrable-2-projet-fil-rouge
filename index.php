@@ -1,6 +1,16 @@
 <?php
 
-require_once "src/JsonRepository.php";
+//require_once "src/JsonRepository.php";
+//require_once "src/FormationRepository.php";
+//require_once "src/InscriptionRepository.php";
+//$formationsRepo = new FormationRepository();
+//$inscriptionsRepo = new InscriptionRepository();
+
+require_once "src/FormationRepository.php";
+require_once "src/InscriptionRepository.php";
+
+$formationsRepo = new FormationRepository();
+$inscriptionsRepo = new InscriptionRepository();
 
 $repo = new JsonRepository("data/formations.json");
 
@@ -8,12 +18,12 @@ $formations = $repo->all();
 
 // Mapping des images selon le service
 $images = [
-    "Assurance vie" => "assets/img/assurance-vie.jpg",
-    "Assurance habitation" => "assets/img/assurance-habitation.jpg",
-    "Planification financière" => "assets/img/planification-financiere.jpg",
-    "Épargne et retraite" => "assets/img/epargne-retraite.jpg",
-    "Analyse budgétaire" => "assets/img/analyse-budgetaire.jpg",
-    "Assurance invalidité" => "assets/img/assurance-invalidite.jpg"
+  "Assurance vie" => "assets/img/assurance-vie.jpg",
+  "Assurance habitation" => "assets/img/assurance-habitation.jpg",
+  "Planification financière" => "assets/img/planification-financiere.jpg",
+  "Épargne et retraite" => "assets/img/epargne-retraite.jpg",
+  "Analyse budgétaire" => "assets/img/analyse-budgetaire.jpg",
+  "Assurance invalidité" => "assets/img/assurance-invalidite.jpg"
 ];
 
 include "partials/header.php";
@@ -31,48 +41,48 @@ include "partials/header.php";
 <!-- SERVICES -->
 <div class="container">
 
-<h2 class="mb-4 text-center">Nos services</h2>
+  <h2 class="mb-4 text-center">Nos services</h2>
 
-<div class="row g-4">
+  <div class="row g-4">
 
-<?php foreach($formations as $f): ?>
+    <?php foreach ($formations as $f): ?>
 
-<?php 
-$image = $images[$f["titre"]] ?? "assets/img/default.jpg";
-?>
+      <?php
+      $image = $images[$f["titre"]] ?? "assets/img/default.jpg";
+      ?>
 
-<div class="col-md-6 col-lg-4">
+      <div class="col-md-6 col-lg-4">
 
-<div class="card h-100 shadow-sm border-0">
+        <div class="card h-100 shadow-sm border-0">
 
-<img src="<?= $image ?>"
-     class="card-img-top"
-     style="height: 180px; object-fit: cover;">
+          <img src="<?= $image ?>"
+            class="card-img-top"
+            style="height: 180px; object-fit: cover;">
 
-<div class="card-body text-center">
+          <div class="card-body text-center">
 
-<h5 class="card-title fw-bold">
-<?= htmlspecialchars($f["titre"]) ?>
-</h5>
+            <h5 class="card-title fw-bold">
+              <?= htmlspecialchars($f["titre"]) ?>
+            </h5>
 
-<p class="text-muted">
-Durée : <?= htmlspecialchars($f["duree"]) ?>
-</p>
+            <p class="text-muted">
+              Durée : <?= htmlspecialchars($f["duree"]) ?>
+            </p>
 
-<a href="view-user.php?id=<?= $f["id"] ?>"
-class="btn btn-primary mt-2">
-Prendre rendez-vous
-</a>
+            <a href="view-user.php?id=<?= $f["id"] ?>"
+              class="btn btn-primary mt-2">
+              Prendre rendez-vous
+            </a>
 
-</div>
+          </div>
 
-</div>
+        </div>
 
-</div>
+      </div>
 
-<?php endforeach; ?>
+    <?php endforeach; ?>
 
-</div>
+  </div>
 
 </div>
 
@@ -82,11 +92,11 @@ Prendre rendez-vous
   <h3 class="fw-bold">Besoin d’un accompagnement ?</h3>
 
   <p class="text-muted">
-     Appellez directement le conseiller
+    Appellez directement le conseiller
   </p>
 
- <a href="tel:+14185551234" class="btn btn-primary mt-2">
-📞 +1 (418) 555-1234
+  <a href="tel:+14185551234" class="btn btn-primary mt-2">
+    📞 +1 (418) 555-1234
   </a>
 
 </div>

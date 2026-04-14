@@ -1,9 +1,14 @@
 <?php
 
-require_once "src/JsonRepository.php";
+//require_once "src/JsonRepository.php";
+//$formationsRepo = new JsonRepository("data/formations.json");
+//$inscriptionsRepo = new JsonRepository("data/inscriptions.json");
 
-$formationsRepo = new JsonRepository("data/formations.json");
-$inscriptionsRepo = new JsonRepository("data/inscriptions.json");
+require_once "src/FormationRepository.php";
+require_once "src/InscriptionRepository.php";
+
+$formationsRepo = new FormationRepository();
+$inscriptionsRepo = new InscriptionRepository();
 
 $id = $_GET["id"] ?? null;
 $formation = $formationsRepo->find((int)$id);
@@ -63,11 +68,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $inscriptions = $inscriptionsRepo->all();
 
         foreach ($inscriptions as $i) {
-          if (
+            if (
                 $i["date"] === $date &&
                 $i["heure"] === $heure &&
                 $i["status"] !== "refuse"
-             ) {
+            ) {
                 $erreurs["heure"] = "Ce créneau est déjà réservé.";
                 break;
             }
@@ -86,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "status" => "en_attente"
         ]);
 
-        header("Location: view-user.php?id=".$formation["id"]."&success=1");
+        header("Location: view-user.php?id=" . $formation["id"] . "&success=1");
         exit;
     }
 }
@@ -96,173 +101,171 @@ include "partials/header.php";
 
 <h2><?= htmlspecialchars($formation["titre"]) ?></h2>
 
-<?php if(isset($_GET["success"])): ?>
-<div class="alert alert-success">Inscription enregistrée !</div>
+<?php if (isset($_GET["success"])): ?>
+    <div class="alert alert-success">Inscription enregistrée !</div>
 <?php endif; ?>
 
 <form method="POST">
 
-<!-- NOM -->
-<div class="mb-3">
-<label class="form-label">Nom</label>
+    <!-- NOM -->
+    <div class="mb-3">
+        <label class="form-label">Nom</label>
 
-<input type="text" name="nom"
-value="<?= htmlspecialchars($_POST["nom"] ?? "") ?>"
-class="form-control <?= isset($erreurs["nom"]) ? 'is-invalid' : '' ?>">
+        <input type="text" name="nom"
+            value="<?= htmlspecialchars($_POST["nom"] ?? "") ?>"
+            class="form-control <?= isset($erreurs["nom"]) ? 'is-invalid' : '' ?>">
 
-<?php if(isset($erreurs["nom"])): ?>
-<div class="invalid-feedback">
-<?= htmlspecialchars($erreurs["nom"]) ?>
-</div>
-<?php endif; ?>
+        <?php if (isset($erreurs["nom"])): ?>
+            <div class="invalid-feedback">
+                <?= htmlspecialchars($erreurs["nom"]) ?>
+            </div>
+        <?php endif; ?>
 
-</div>
+    </div>
 
-<!-- EMAIL -->
-<div class="mb-3">
-<label class="form-label">Email</label>
+    <!-- EMAIL -->
+    <div class="mb-3">
+        <label class="form-label">Email</label>
 
-<input type="email" name="email"
-value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
-class="form-control <?= isset($erreurs["email"]) ? 'is-invalid' : '' ?>">
+        <input type="email" name="email"
+            value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
+            class="form-control <?= isset($erreurs["email"]) ? 'is-invalid' : '' ?>">
 
-<?php if(isset($erreurs["email"])): ?>
-<div class="invalid-feedback">
-<?= htmlspecialchars($erreurs["email"]) ?>
-</div>
-<?php endif; ?>
+        <?php if (isset($erreurs["email"])): ?>
+            <div class="invalid-feedback">
+                <?= htmlspecialchars($erreurs["email"]) ?>
+            </div>
+        <?php endif; ?>
 
-</div>
+    </div>
 
-<!-- DATE -->
-<div class="mb-3">
-<label class="form-label">Date du rendez-vous</label>
+    <!-- DATE -->
+    <div class="mb-3">
+        <label class="form-label">Date du rendez-vous</label>
 
-<input type="date" name="date_rdv" id="date_rdv"
-value="<?= htmlspecialchars($_POST["date_rdv"] ?? "") ?>"
-class="form-control <?= isset($erreurs["date"]) ? 'is-invalid' : '' ?>"
-min="<?= date('Y-m-d') ?>">
+        <input type="date" name="date_rdv" id="date_rdv"
+            value="<?= htmlspecialchars($_POST["date_rdv"] ?? "") ?>"
+            class="form-control <?= isset($erreurs["date"]) ? 'is-invalid' : '' ?>"
+            min="<?= date('Y-m-d') ?>">
 
-<?php if(isset($erreurs["date"])): ?>
-<div class="invalid-feedback">
-<?= htmlspecialchars($erreurs["date"]) ?>
-</div>
-<?php endif; ?>
+        <?php if (isset($erreurs["date"])): ?>
+            <div class="invalid-feedback">
+                <?= htmlspecialchars($erreurs["date"]) ?>
+            </div>
+        <?php endif; ?>
 
-<small class="text-muted">
-Choisissez une date future.
-</small>
+        <small class="text-muted">
+            Choisissez une date future.
+        </small>
 
-</div>
+    </div>
 
-<!-- HEURE -->
-<div class="mb-3">
-<label class="form-label">Heure du rendez-vous</label>
+    <!-- HEURE -->
+    <div class="mb-3">
+        <label class="form-label">Heure du rendez-vous</label>
 
-<select name="heure_rdv" id="heure_rdv"
-class="form-control <?= isset($erreurs["heure"]) ? 'is-invalid' : '' ?>">
+        <select name="heure_rdv" id="heure_rdv"
+            class="form-control <?= isset($erreurs["heure"]) ? 'is-invalid' : '' ?>">
 
-<option value="">Choisir une plage horaire</option>
+            <option value="">Choisir une plage horaire</option>
 
-<?php
-$creneaux = [
-    "09:00-10:00",
-    "10:00-11:00",
-    "11:00-12:00",
-    "13:00-14:00",
-    "14:00-15:00",
-    "15:00-16:00"
-];
+            <?php
+            $creneaux = [
+                "09:00-10:00",
+                "10:00-11:00",
+                "11:00-12:00",
+                "13:00-14:00",
+                "14:00-15:00",
+                "15:00-16:00"
+            ];
 
-foreach ($creneaux as $c):
-$disabled = in_array($c, $heuresPrises);
-?>
+            foreach ($creneaux as $c):
+                $disabled = in_array($c, $heuresPrises);
+            ?>
 
-<option value="<?= $c ?>"
-<?= $disabled ? "disabled" : "" ?>
-<?= (($_POST["heure_rdv"] ?? "") === $c) ? "selected" : "" ?>>
+                <option value="<?= $c ?>"
+                    <?= $disabled ? "disabled" : "" ?>
+                    <?= (($_POST["heure_rdv"] ?? "") === $c) ? "selected" : "" ?>>
 
-<?= str_replace("-", " - ", $c) ?>
-<?= $disabled ? " (Complet)" : "" ?>
+                    <?= str_replace("-", " - ", $c) ?>
+                    <?= $disabled ? " (Complet)" : "" ?>
 
-</option>
+                </option>
 
-<?php endforeach; ?>
+            <?php endforeach; ?>
 
-</select>
+        </select>
 
-<?php if(isset($erreurs["heure"])): ?>
-<div class="invalid-feedback">
-<?= htmlspecialchars($erreurs["heure"]) ?>
-</div>
-<?php endif; ?>
+        <?php if (isset($erreurs["heure"])): ?>
+            <div class="invalid-feedback">
+                <?= htmlspecialchars($erreurs["heure"]) ?>
+            </div>
+        <?php endif; ?>
 
-<small class="text-muted">
-Les créneaux complets sont désactivés automatiquement.
-</small>
+        <small class="text-muted">
+            Les créneaux complets sont désactivés automatiquement.
+        </small>
 
-</div>
+    </div>
 
-<button class="btn btn-primary">
-Envoyer la demande
-</button>
+    <button class="btn btn-primary">
+        Envoyer la demande
+    </button>
 
 </form>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
 
-document.addEventListener("DOMContentLoaded", function() {
+        const dateInput = document.getElementById("date_rdv");
+        const selectHeure = document.getElementById("heure_rdv");
 
-    const dateInput = document.getElementById("date_rdv");
-    const selectHeure = document.getElementById("heure_rdv");
+        const creneaux = [
+            "09:00-10:00",
+            "10:00-11:00",
+            "11:00-12:00",
+            "13:00-14:00",
+            "14:00-15:00",
+            "15:00-16:00"
+        ];
 
-    const creneaux = [
-        "09:00-10:00",
-        "10:00-11:00",
-        "11:00-12:00",
-        "13:00-14:00",
-        "14:00-15:00",
-        "15:00-16:00"
-    ];
+        dateInput.addEventListener("change", function() {
 
-    dateInput.addEventListener("change", function() {
+            const date = this.value;
 
-        const date = this.value;
+            if (!date) return;
 
-        if (!date) return;
+            selectHeure.innerHTML = "<option>Chargement...</option>";
 
-        selectHeure.innerHTML = "<option>Chargement...</option>";
+            fetch("get-heures.php?date=" + date)
+                .then(res => res.json())
+                .then(heuresPrises => {
 
-        fetch("get-heures.php?date=" + date)
-        .then(res => res.json())
-        .then(heuresPrises => {
+                    selectHeure.innerHTML = '<option value="">Choisir une plage horaire</option>';
 
-            selectHeure.innerHTML = '<option value="">Choisir une plage horaire</option>';
+                    creneaux.forEach(c => {
 
-            creneaux.forEach(c => {
+                        const option = document.createElement("option");
+                        option.value = c;
 
-                const option = document.createElement("option");
-                option.value = c;
+                        let label = c.replace("-", " - ");
 
-                let label = c.replace("-", " - ");
+                        if (heuresPrises.includes(c)) {
+                            option.disabled = true;
+                            label += " (Complet)";
+                        }
 
-                if (heuresPrises.includes(c)) {
-                    option.disabled = true;
-                    label += " (Complet)";
-                }
+                        option.textContent = label;
 
-                option.textContent = label;
+                        selectHeure.appendChild(option);
+                    });
 
-                selectHeure.appendChild(option);
-            });
+                })
+                .catch(err => console.error("Erreur AJAX:", err));
 
-        })
-        .catch(err => console.error("Erreur AJAX:", err));
+        });
 
     });
-
-});
-
 </script>
 
 <?php include "partials/footer.php"; ?>

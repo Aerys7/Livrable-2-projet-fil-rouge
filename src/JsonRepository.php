@@ -1,6 +1,7 @@
 <?php
 
-class JsonRepository {
+class JsonRepository
+{
 
     private $file;
 
