@@ -91,6 +91,12 @@ include "partials/header.php";
             Se connecter
         </button>
 
+        <div class="text-center mt-3">
+            <a href="register.php" class="btn btn-outline-secondary w-100">
+                Créer un compte
+            </a>
+        </div>
+
     </form>
 
 </div>

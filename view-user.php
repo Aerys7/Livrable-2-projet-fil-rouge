@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] !== "admin") {
+    header("Location: login.php");
+    exit;
+}
+
 require_once "src/FormationRepository.php";
 require_once "src/InscriptionRepository.php";
 
@@ -84,8 +91,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "date" => $date,
             "heure" => $heure,
             "formation_id" => $formation["id"],
-            "status" => "en_attente",
-            "user_id" => $_SESSION["user"]["id"]
+            "user_id" => $_SESSION["user"]["id"], // 🔥 AJOUT IMPORTANT
+            "status" => "en_attente"
         ]);
 
         header("Location: view-user.php?id=" . $formation["id"] . "&success=1");
