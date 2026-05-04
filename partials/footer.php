@@ -2,7 +2,7 @@
 
 <footer class="text-center mt-5 mb-4">
 
-    <p>Projet Web 2 - Repository JSON</p>
+    <p>Projet Fil Rouge - Web 2</p>
 
 </footer>
 

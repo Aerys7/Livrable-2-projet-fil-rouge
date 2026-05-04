@@ -1,0 +1,45 @@
+-- CRÉATION DE LA BASE
+CREATE DATABASE IF NOT EXISTS projet_web;
+USE projet_web;
+
+-- TABLE USERS
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) DEFAULT 'user'
+);
+
+-- TABLE FORMATIONS (services)
+CREATE TABLE formations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titre VARCHAR(255) NOT NULL,
+    duree VARCHAR(50),
+    prix INT DEFAULT 0,
+    actif BOOLEAN DEFAULT TRUE
+);
+
+-- TABLE INSCRIPTIONS (rendez-vous)
+CREATE TABLE inscriptions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    date DATE NOT NULL,
+    heure VARCHAR(50) NOT NULL,
+    formation_id INT,
+    user_id INT,
+    status VARCHAR(50) DEFAULT 'en_attente',
+
+    FOREIGN KEY (formation_id) REFERENCES formations(id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- DONNÉES FORMATIONS
+INSERT INTO formations (titre, duree, prix, actif) VALUES
+('Assurance vie', '30 min', 0, 1),
+('Assurance habitation', '30 min', 0, 1),
+('Planification financière', '60 min', 0, 1),
+('Épargne et retraite', '45 min', 0, 1),
+('Analyse budgétaire', '30 min', 0, 1),
+('Assurance invalidité', '45 min', 0, 1);

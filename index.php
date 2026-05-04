@@ -8,6 +8,8 @@ $inscriptionsRepo = new InscriptionRepository();
 
 $formations = $formationsRepo->all();
 
+
+
 // Mapping des images selon le service
 $images = [
   "Assurance vie" => "assets/img/assurance-vie.jpg",
