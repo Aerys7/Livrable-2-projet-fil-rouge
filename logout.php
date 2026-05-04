@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 // Supprime toutes les variables de session
 $_SESSION = [];
 

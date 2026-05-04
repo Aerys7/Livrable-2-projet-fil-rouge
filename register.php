@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 require_once "src/Database.php";
 
 $pdo = Database::getConnection();
