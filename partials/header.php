@@ -47,7 +47,7 @@
           <?php if (isset($_SESSION["user"])): ?>
 
             <li class="nav-item me-3">
-              <a class="nav-link" href="profile.php">Mon espace</a>
+              <a class="nav-link" href="profile.php">Mon profil</a>
             </li>
 
             <?php if ($_SESSION["user"]["role"] === "admin"): ?>
@@ -64,9 +64,15 @@
 
           <?php else: ?>
 
-            <li class="nav-item">
-              <a href="login.php" class="btn btn-primary btn-sm px-3">
+            <li class="nav-item me-2">
+              <a href="login.php" class="btn btn-outline-light btn-sm px-3">
                 Connexion
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="register.php" class="btn btn-primary btn-sm px-3">
+                Inscription
               </a>
             </li>
 
