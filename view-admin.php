@@ -185,20 +185,34 @@ include "partials/header.php";
             <div id="services" class="card shadow-sm mb-4">
                 <div class="card-body">
 
-                    <h4>Ajouter un service</h4>
+                    <h4 class=" mb-4">Ajouter un service</h4>
 
-                    <form method="POST" class="row g-2">
-
-                        <div class="col-md-5">
-                            <input name="titre" class="form-control" placeholder="Titre" required>
-                        </div>
+                    <form method="POST" enctype="multipart/form-data" class="row g-3">
 
                         <div class="col-md-5">
-                            <input name="duree" class="form-control" placeholder="Durée" required>
+                            <label class="form-label small text-muted">Titre</label>
+                            <input name="titre" class="form-control" placeholder="Ex: Assurance vie" required>
                         </div>
 
-                        <div class="col-md-2">
-                            <button name="add_service" class="btn btn-success w-100">Ajouter</button>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Durée</label>
+                            <input name="duree" class="form-control" placeholder="Ex: 60 min" required>
+                        </div>
+
+                        <div class="col-md-3 d-grid">
+                            <button name="add_service" class="btn btn-success">
+                                Ajouter le service
+                            </button>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Description</label>
+                            <textarea name="description" class="form-control" rows="2" required></textarea>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Image</label>
+                            <input type="file" name="image" class="form-control" accept="image/*" required>
                         </div>
 
                     </form>
