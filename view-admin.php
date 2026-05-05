@@ -14,8 +14,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$pdo = Database::getConnection();
-
 $stmt = $pdo->query("
     SELECT i.*, f.titre 
     FROM inscriptions i
@@ -36,9 +34,6 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] !== "admin") {
     header("Location: login.php");
     exit;
 }
-
-require_once "src/FormationRepository.php";
-require_once "src/InscriptionRepository.php";
 
 // ACTIONS STATUS
 if (isset($_GET["confirm"])) {
@@ -67,6 +62,36 @@ if (isset($_GET["refuse"])) {
         WHERE id = ?
     ");
 
+    $stmt->execute([$id]);
+
+    header("Location: view-admin.php");
+    exit;
+}
+
+if (isset($_POST["add_service"])) {
+
+    $titre = trim($_POST["titre"]);
+    $duree = trim($_POST["duree"]);
+
+    if (!empty($titre) && !empty($duree)) {
+
+        $stmt = $pdo->prepare("
+            INSERT INTO formations (titre, duree, prix, actif)
+            VALUES (?, ?, 0, 1)
+        ");
+
+        $stmt->execute([$titre, $duree]);
+
+        header("Location: view-admin.php");
+        exit;
+    }
+}
+
+if (isset($_GET["delete"])) {
+
+    $id = (int)$_GET["delete"];
+
+    $stmt = $pdo->prepare("DELETE FROM formations WHERE id = ?");
     $stmt->execute([$id]);
 
     header("Location: view-admin.php");
@@ -173,7 +198,7 @@ include "partials/header.php";
                         </div>
 
                         <div class="col-md-2">
-                            <button class="btn btn-success w-100">Ajouter</button>
+                            <button name="add_service" class="btn btn-success w-100">Ajouter</button>
                         </div>
 
                     </form>
@@ -202,7 +227,8 @@ include "partials/header.php";
                                 <td><?= htmlspecialchars($f["duree"]) ?></td>
 
                                 <td>
-                                    <a href="?delete=<?= $f["id"] ?>" class="btn btn-danger btn-sm"
+                                    <a href="?delete=<?= $f["id"] ?>"
+                                        class="btn btn-danger btn-sm"
                                         onclick="return confirm('Supprimer ?')">
                                         Supprimer
                                     </a>
