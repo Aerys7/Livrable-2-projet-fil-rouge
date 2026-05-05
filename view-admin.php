@@ -1,5 +1,37 @@
 <?php
 
+require_once "src/Database.php";
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$pdo = Database::getConnection();
+
+require_once "src/Database.php";
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$pdo = Database::getConnection();
+
+$stmt = $pdo->query("
+    SELECT i.*, f.titre 
+    FROM inscriptions i
+    JOIN formations f ON i.formation_id = f.id
+    ORDER BY i.date DESC
+");
+
+$inscriptions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $pdo->query("
+    SELECT * FROM formations
+    ORDER BY id DESC
+");
+
+$formations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] !== "admin") {
     header("Location: login.php");
     exit;
@@ -8,43 +40,38 @@ if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] !== "admin") {
 require_once "src/FormationRepository.php";
 require_once "src/InscriptionRepository.php";
 
-$formationsRepo = new FormationRepository();
-$inscriptionsRepo = new InscriptionRepository();
-
 // ACTIONS STATUS
 if (isset($_GET["confirm"])) {
-    $inscriptionsRepo->update((int)$_GET["confirm"], ["status" => "confirme"]);
+
+    $id = (int)$_GET["confirm"];
+
+    $stmt = $pdo->prepare("
+        UPDATE inscriptions 
+        SET status = 'confirme' 
+        WHERE id = ?
+    ");
+
+    $stmt->execute([$id]);
+
     header("Location: view-admin.php");
     exit;
 }
 
 if (isset($_GET["refuse"])) {
-    $inscriptionsRepo->update((int)$_GET["refuse"], ["status" => "refuse"]);
+
+    $id = (int)$_GET["refuse"];
+
+    $stmt = $pdo->prepare("
+        UPDATE inscriptions 
+        SET status = 'refuse' 
+        WHERE id = ?
+    ");
+
+    $stmt->execute([$id]);
+
     header("Location: view-admin.php");
     exit;
 }
-
-// CRUD FORMATIONS
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $formationsRepo->add([
-        "titre" => $_POST["titre"],
-        "duree" => $_POST["duree"],
-        "prix" => 0,
-        "actif" => true
-    ]);
-    header("Location: view-admin.php");
-    exit;
-}
-
-if (isset($_GET["delete"])) {
-    $formationsRepo->delete((int)$_GET["delete"]);
-    header("Location: view-admin.php");
-    exit;
-}
-
-// DATA
-$formations = $formationsRepo->all();
-$inscriptions = $inscriptionsRepo->all();
 
 // FILTRE
 $filtre = $_GET["status"] ?? "all";
@@ -226,7 +253,7 @@ include "partials/header.php";
                                 <td><?= htmlspecialchars($i["heure"] ?? "") ?></td>
 
                                 <td>
-                                    <?= htmlspecialchars($formationsRepo->find($i["formation_id"])["titre"] ?? "Inconnu") ?>
+                                    <?= htmlspecialchars($i["titre"] ?? "Inconnu") ?>
                                 </td>
 
                                 <td>
@@ -260,5 +287,7 @@ include "partials/header.php";
     </div>
 
 </div>
+
+include "partials/header.php";
 
 <?php include "partials/footer.php"; ?>

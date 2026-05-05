@@ -1,7 +1,8 @@
 <?php
 
-session_start();
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once "src/Database.php";
 
 $pdo = Database::getConnection();

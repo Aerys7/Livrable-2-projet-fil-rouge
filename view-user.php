@@ -1,18 +1,30 @@
 <?php
 
-if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] !== "admin") {
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION["user"])) {
     header("Location: login.php");
     exit;
 }
 
-require_once "src/FormationRepository.php";
-require_once "src/InscriptionRepository.php";
+require_once "src/Database.php";
 
-$formationsRepo = new FormationRepository();
-$inscriptionsRepo = new InscriptionRepository();
+$pdo = Database::getConnection();
 
+$userId = $_SESSION["user"]["id"];
 $id = $_GET["id"] ?? null;
-$formation = $formationsRepo->find((int)$id);
+
+// USER
+$stmt = $pdo->prepare("SELECT nom, email FROM users WHERE id = ?");
+$stmt->execute([$userId]);
+$user = $stmt->fetch();
+
+// FORMATION
+$stmt = $pdo->prepare("SELECT * FROM formations WHERE id = ?");
+$stmt->execute([$id]);
+$formation = $stmt->fetch();
 
 if (!$formation) {
     die("Service introuvable.");
@@ -24,16 +36,16 @@ $erreurs = [];
 $heuresPrises = [];
 
 if (!empty($_POST["date_rdv"])) {
-    $inscriptions = $inscriptionsRepo->all();
 
-    foreach ($inscriptions as $i) {
-        if (
-            $i["date"] === $_POST["date_rdv"] &&
-            $i["status"] !== "refuse"
-        ) {
-            $heuresPrises[] = $i["heure"];
-        }
-    }
+    $stmt = $pdo->prepare("
+        SELECT heure 
+        FROM inscriptions
+        WHERE date = ? AND status != 'refuse'
+    ");
+
+    $stmt->execute([$_POST["date_rdv"]]);
+
+    $heuresPrises = $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -66,31 +78,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Vérification conflit
     if (empty($erreurs)) {
 
-        $inscriptions = $inscriptionsRepo->all();
+        $stmt = $pdo->prepare("
+    SELECT COUNT(*) FROM inscriptions
+    WHERE date = ? AND heure = ? AND status != 'refuse'
+");
 
-        foreach ($inscriptions as $i) {
-            if (
-                $i["date"] === $date &&
-                $i["heure"] === $heure &&
-                $i["status"] !== "refuse"
-            ) {
-                $erreurs["heure"] = "Ce créneau est déjà réservé.";
-                break;
-            }
-        }
+        $stmt->execute([$date, $heure]);
+
+        $conflit = $stmt->fetchColumn() > 0;
     }
 
     // Enregistrement
     if (empty($erreurs)) {
 
-        $inscriptionsRepo->add([
-            "nom" => $nom,
-            "email" => $email,
-            "date" => $date,
-            "heure" => $heure,
-            "formation_id" => $formation["id"],
-            "user_id" => $_SESSION["user"]["id"], // 🔥 AJOUT IMPORTANT
-            "status" => "en_attente"
+        $stmt = $pdo->prepare("
+    INSERT INTO inscriptions 
+    (nom, email, date, heure, formation_id, user_id, status)
+    VALUES (?, ?, ?, ?, ?, ?, 'en_attente')
+");
+
+        $stmt->execute([
+            $nom,
+            $email,
+            $date,
+            $heure,
+            $formation["id"],
+            $_SESSION["user"]["id"]
         ]);
 
         header("Location: view-user.php?id=" . $formation["id"] . "&success=1");
@@ -114,8 +127,9 @@ include "partials/header.php";
         <label class="form-label">Nom</label>
 
         <input type="text" name="nom"
-            value="<?= htmlspecialchars($_POST["nom"] ?? "") ?>"
-            class="form-control <?= isset($erreurs["nom"]) ? 'is-invalid' : '' ?>">
+            value="<?= htmlspecialchars($_POST["nom"] ?? $user["nom"] ?? "") ?>"
+            class="form-control bg-light text-muted <?= isset($erreurs["nom"]) ? 'is-invalid' : '' ?>"
+            readonly>
 
         <?php if (isset($erreurs["nom"])): ?>
             <div class="invalid-feedback">
@@ -130,8 +144,9 @@ include "partials/header.php";
         <label class="form-label">Email</label>
 
         <input type="email" name="email"
-            value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
-            class="form-control <?= isset($erreurs["email"]) ? 'is-invalid' : '' ?>">
+            value="<?= htmlspecialchars($_POST["email"] ?? $user["email"] ?? "") ?>"
+            class="form-control bg-light text-muted <?= isset($erreurs["email"]) ? 'is-invalid' : '' ?>"
+            readonly>
 
         <?php if (isset($erreurs["email"])): ?>
             <div class="invalid-feedback">

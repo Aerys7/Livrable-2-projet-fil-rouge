@@ -1,14 +1,18 @@
 <?php
 
+require_once "src/Database.php";
+
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
 require_once "src/FormationRepository.php";
 require_once "src/InscriptionRepository.php";
 
-$formationsRepo = new FormationRepository();
-$inscriptionsRepo = new InscriptionRepository();
+$pdo = Database::getConnection();
 
-$formations = $formationsRepo->all();
-
-
+$stmt = $pdo->query("SELECT * FROM formations WHERE actif = 1");
+$formations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Mapping des images selon le service
 $images = [
