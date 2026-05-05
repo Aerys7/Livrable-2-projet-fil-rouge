@@ -99,6 +99,8 @@ $refuse = count(array_filter($inscriptions, fn($i) => $i["status"] === "refuse")
 include "partials/header.php";
 ?>
 
+<script src="assets/js/admin.js"></script>
+
 <div class="container-fluid">
 
     <div class="row">
@@ -231,52 +233,65 @@ include "partials/header.php";
 
                     <h4>Inscriptions</h4>
 
-                    <table class="table table-hover align-middle">
+                    <select id="statusFilter" class="form-control mb-3">
+                        <option value="">Tous les statuts</option>
+                        <option value="en_attente">En attente</option>
+                        <option value="confirme">Confirmé</option>
+                        <option value="refuse">Refusé</option>
+                    </select>
 
-                        <tr>
-                            <th>Nom</th>
-                            <th>Email</th>
-                            <th>Date</th>
-                            <th>Heure</th>
-                            <th>Service</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
+                    <input type="text" id="searchInput"
+                        class="form-control mb-3"
+                        placeholder="Rechercher par nom, email ou service...">
 
-                        <?php foreach ($inscriptions as $i): ?>
+                    <table class="table table-hover align-middle" id="adminTable">
 
+                        <thead>
                             <tr>
-
-                                <td><?= htmlspecialchars($i["nom"]) ?></td>
-                                <td><?= htmlspecialchars($i["email"]) ?></td>
-                                <td><?= htmlspecialchars($i["date"]) ?></td>
-                                <td><?= htmlspecialchars($i["heure"] ?? "") ?></td>
-
-                                <td>
-                                    <?= htmlspecialchars($i["titre"] ?? "Inconnu") ?>
-                                </td>
-
-                                <td>
-                                    <span class="badge bg-<?= $i["status"] === "confirme" ? "success" : ($i["status"] === "refuse" ? "danger" : "warning") ?>">
-                                        <?= htmlspecialchars($i["status"]) ?>
-                                    </span>
-                                </td>
-
-                                <td>
-
-                                    <?php if ($i["status"] === "en_attente"): ?>
-
-                                        <a href="?confirm=<?= $i["id"] ?>" class="btn btn-success btn-sm">✔</a>
-                                        <a href="?refuse=<?= $i["id"] ?>" class="btn btn-danger btn-sm">✖</a>
-
-                                    <?php endif; ?>
-
-                                </td>
-
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
+                        </thead>
 
-                        <?php endforeach; ?>
+                        <tbody>
 
+                            <?php foreach ($inscriptions as $i): ?>
+
+                                <tr>
+
+                                    <td><?= htmlspecialchars($i["nom"]) ?></td>
+                                    <td><?= htmlspecialchars($i["email"]) ?></td>
+                                    <td><?= htmlspecialchars($i["date"]) ?></td>
+                                    <td><?= htmlspecialchars($i["heure"] ?? "") ?></td>
+
+                                    <td><?= htmlspecialchars($i["titre"] ?? "Inconnu") ?></td>
+
+                                    <td>
+                                        <span class="badge status-badge bg-<?=
+                                                                            $i["status"] === "confirme" ? "success" : ($i["status"] === "refuse" ? "danger" : "warning")
+                                                                            ?>"
+                                            data-status="<?= $i["status"] ?>">
+                                            <?= htmlspecialchars($i["status"]) ?>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <?php if ($i["status"] === "en_attente"): ?>
+                                            <a href="?confirm=<?= $i["id"] ?>" class="btn btn-success btn-sm">✔</a>
+                                            <a href="?refuse=<?= $i["id"] ?>" class="btn btn-danger btn-sm">✖</a>
+                                        <?php endif; ?>
+                                    </td>
+
+                                </tr>
+
+                            <?php endforeach; ?>
+
+                        </tbody>
                     </table>
 
                 </div>
@@ -287,7 +302,5 @@ include "partials/header.php";
     </div>
 
 </div>
-
-include "partials/header.php";
 
 <?php include "partials/footer.php"; ?>
